@@ -68,12 +68,12 @@ func run(cancel context.CancelFunc, errChan chan error, containerName string, ar
 	containerStoragePath := path.Join(rawContainerStoragePath)
 	
 	logger.Printf("Creating %s", rawContainerStoragePath)
-	if err := os.MkdirAll(path.Join(rawContainerStoragePath, os.ModePerm)); err != nil {
+	if err := os.MkdirAll(path.Join(rawContainerStoragePath), os.ModePerm); err != nil {
 		logger.Fatal(err)
 	}
 	logger.Printf("Creating and clearing %s", tmpStoragePath)
-	_ := os.Remove(tmpStoragePath)
-	if err := os.MkdirAll(path.Join(tmpStoragePath, os.ModePerm)); err != nil {
+	_ = os.RemoveAll(tmpStoragePath)
+	if err := os.MkdirAll(path.Join(tmpStoragePath), os.ModePerm); err != nil {
 		logger.Fatal(err)
 	}
 	
