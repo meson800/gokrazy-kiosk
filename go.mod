@@ -1,4 +1,4 @@
-module github.com/damdo/gokrazy-kiosk
+module github.com/meson800/gokrazy-kiosk
 
 go 1.20
 
