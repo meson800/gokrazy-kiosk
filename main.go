@@ -16,6 +16,7 @@ import (
 )
 
 const rawContainerStoragePath = "/perm/container-storage"
+const tmpStoragePath = "/perm/temp-container"
 
 func main() {
 	logger.Print("starting up")
@@ -65,6 +66,17 @@ func run(cancel context.CancelFunc, errChan chan error, containerName string, ar
 	gokrazy.WaitForClock()
 
 	containerStoragePath := path.Join(rawContainerStoragePath)
+	
+	//logger.Printf("Creating %s", rawContainerStoragePath)
+	//if err := os.MkdirAll(path.Join(rawContainerStoragePath, os.ModePerm)); err != nil {
+	//	logger.Fatal(err)
+	//}
+	logger.Printf("Creating and clearing %s", tmpStoragePath)
+	_ := os.Remove(tmpStoragePath)
+	if err := os.MkdirAll(path.Join(tmpStoragePath, os.ModePerm)); err != nil {
+		logger.Fatal(err)
+	}
+	
 
 	if err := mountVar(containerStoragePath); err != nil {
 		logger.Fatal(err)
@@ -172,7 +184,7 @@ func podman(ctx context.Context, args ...string) (*bytes.Buffer, error) {
 
 	podman := exec.CommandContext(ctx, "/usr/local/bin/podman", args...)
 	podman.Env = expandPath(os.Environ())
-	podman.Env = append(podman.Env, "TMPDIR=/tmp")
+	podman.Env = append(podman.Env, "TMPDIR=/perm/temp-container")
 	podman.Stdin = os.Stdin
 	podman.Stdout = os.Stdout
 	podman.Stderr = mw
