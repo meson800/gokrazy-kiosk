@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $# -eq 0 ]] ; then
-    /usr/bin/X :0 -nolisten tcp vt1
+    /usr/bin/X :0 -nocursor -nolisten tcp vt1
 else
     mkdir -p /screenshots
     # maximize the main window
