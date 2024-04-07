@@ -17,6 +17,7 @@ import (
 
 const rawContainerStoragePath = "/perm/container-storage"
 const tmpStoragePath = "/perm/temp-container"
+const tmpScreenshots = "/tmp/screenshots"
 
 func main() {
 	logger.Print("starting up")
@@ -38,6 +39,7 @@ func main() {
 		"--device", "/dev/vga_arbiter",
 		"--device", "/dev/snd",
 		"--cap-add", "SYS_TTY_CONFIG",
+		"--mount=type=bind,src=/tmp/screenshots,dst=/screenshots"
 	}
 
 	runArgs, gokrazyArgs := mergeArgs(defaultArgs, os.Args)
@@ -85,6 +87,11 @@ func run(cancel context.CancelFunc, errChan chan error, containerName string, ar
 	cleanup(containerName)
 
 	logger.Printf("issuing %v", append([]string{"podman", "run"}, args...))
+
+	logger.Printf("Creating %s", tmpScreenshots)
+	if err := os.MkdirAll(path.Join(tmpScreenshots), os.ModePerm); err != nil {
+		logger.Fatal(err)
+	}
 
 	if _, err := podman(context.TODO(), append([]string{"run"}, args...)...); err != nil {
 		logger.Printf("error during podman run: %v", err)
