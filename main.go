@@ -40,6 +40,7 @@ func main() {
 		"--device", "/dev/snd",
 		"--cap-add", "SYS_TTY_CONFIG",
 		"--mount", "type=bind,src=/tmp/screenshots,dst=/screenshots",
+		
 	}
 
 	runArgs, gokrazyArgs := mergeArgs(defaultArgs, os.Args)
