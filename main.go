@@ -39,7 +39,7 @@ func main() {
 		"--device", "/dev/vga_arbiter",
 		"--device", "/dev/snd",
 		"--cap-add", "SYS_TTY_CONFIG",
-		"--mount=type=bind,src=/tmp/screenshots,dst=/screenshots",
+		"--mount", "type=bind,src=/tmp/screenshots,dst=/screenshots",
 	}
 
 	runArgs, gokrazyArgs := mergeArgs(defaultArgs, os.Args)
