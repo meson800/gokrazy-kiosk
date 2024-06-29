@@ -26,6 +26,6 @@ Section \"InputDevice\"\n\
 EndSection\n\
 " > /etc/X11/xorg.conf.d/10-input.conf
 
-ADD entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ADD entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
